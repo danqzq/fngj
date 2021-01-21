@@ -29,23 +29,21 @@ Lists ongoing/planned future events/jams.
 
 ```js
 {
-  "jam":true || false, //List only current/upcoming jams
+  "type":"jam", //List only given type of event
   "time":"ongoing" || "upcoming" //List only ongoing or upcoming events. Leave blank to list both.
 }
 ```
 
 ##### /submissions
 
-This route will list all the submissions that have been submitted for FNGJ events.
+This route will list all the submissions according to given params (REQUIRED).
 Query parameters are:
 
 ```js
-  "id":"<id of game>/<leave blank to list all submissions>",
-  "date": {
-    "start": "all",
-    "end": "2021-01-20T00:00:00.00Z"
-  },
-  // Leave null if you don't want to filter by date
+{
+  "header":"author" || "eventID" || "genre",
+  "value": "Deathvenom"||"2020-42"||"scifi"
+}
 ```
 
 ### Objects
@@ -60,7 +58,6 @@ An event object contains information on a past, upcoming or ongoing event or jam
 {
   "id":"id of the jam or event"//Jam id's are "year-week", like 2020-42
   //event id's are "event-year#number", like event-2021#1 or event-2020#69
-  "isJam": true //false if not a game jam
   "type": "The type of event, leave blank if a jam", //"hackathon", "coding challenge"
   "startTime": "The starting date and time", //This is generated in javascript using JSON.stringify(Date object)
   //See https://stackoverflow.com/a/44074625/12872811 to parse it in python
@@ -92,6 +89,7 @@ Contains information about a submission for an event, jam or not.
     "submission": "link to the submission",
     "rating": "link to the rating of the submissions" // optional
   },
-  "win":["","",""] //Array of categories in which the submission won. Empty array if none.
+  "win":["","",""], //Array of categories in which the submission won. Empty array if none.
+  "tags":["genre","special keyword","anything else"]
 }
 ```
