@@ -46,6 +46,8 @@ Query parameters are:
 }
 ```
 
+Set header to "random" and value to true to fetch a randomly picked single game out of all entries (Looking at ya, Dan ;))
+
 ### Objects
 
 The response returns json objects with particular formats. Not final.
@@ -78,7 +80,6 @@ Contains information about a submission for an event, jam or not.
   "id":"author-title in camelcase-date",//deathvenom-jumpForJoy-11/1/2021
   "title":"Title of the submission",
   "desc":"description of submission",
-  "image":"url to thumbnail image." //https://img.itch.zone/aW1nLzM4NzYzNzIucG5n/315x250%23c/fiFiEa.png
   "author": {
     "name": "author",
     "email": "author@author.com", // optional
