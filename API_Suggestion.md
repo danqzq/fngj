@@ -8,30 +8,45 @@ FNGJ api will be a public REST api to fetch data relevant to the series of gamej
 
 #### Note that this is only a suggestion as of now and not final in any aspect.
 
-##### /past-jams
+### /events
 
-This route will list all past jams as an array.
-Response will be a json array, in the format [{}, {}, {}], where each {} is an event object.
+This route lists all events held between the given dates. Query should be in json format.
 
-##### /past-jams/:id
+```js
+{
+  "type": "jam",
+  "date": {
+    "start": "all",//"all" to list all jams before end date
+    "end": "2021-01-20T00:00:00.00Z"//"all" to list all jams after start date
+  },
+  "search": "<someParam or empty>"//Search some words in event title or description
+}
+```
 
-This route will list a particular jam object. The :id parameter is "year-week". For example, to get the data for the 42nd week of 2020, one can send a GET request to (url)/past-jams/2020-42.
-Response will be a json object containing the event object.
+### /events/current
 
-##### /jam-games
+Lists ongoing/planned future events/jams.
 
-This route will list all the games that have ever been submitted for FNGJ jams.
-Returns a json array of game objects
+```js
+{
+  "jam":true || false, //List only current/upcoming jams
+  "time":"ongoing" || "upcoming" //List only ongoing or upcoming events. Leave blank to list both.
+}
+```
 
-##### /next-jam
+##### /submissions
 
-This route will list details for the next jam.
-Response will be a json object containing the event object.
+This route will list all the submissions that have been submitted for FNGJ events.
+Query parameters are:
 
-##### /next-event
-
-This route will list details for the next event, be it a jam or something else.
-Response will be a json object containing the event object.
+```js
+  "id":"<id of game>/<leave blank to list all submissions>",
+  "date": {
+    "start": "all",
+    "end": "2021-01-20T00:00:00.00Z"
+  },
+  // Leave null if you don't want to filter by date
+```
 
 ### Objects
 
@@ -57,36 +72,26 @@ An event object contains information on a past, upcoming or ongoing event or jam
 }
 ```
 
-##### Game Object
+### Submission Object
 
-An object containing information for a game submitted for the jam.
-
-```js
-{
-  "id":"author-title in camelcase-date",//deathvenom-jumpForJoy-11/1/2021
-  "title":"title of the game",
-  "desc":"description of the game, as on its itch.io page",
-  "link":"link to its itch.io game page",
-  "ratingLink":"Link to its itch.io rating page",
-  "author":"itch.io profile name of maker",
-  "authorDiscord":"Discord usertag of author",//Username#1111
-  "jam":"Jam for which game was submitted"//id of the jam
-  "win":["","",""] //Array of categories in which the game won. Empty array if none.
-}
-```
-
-##### Event Submission object
-
-An object containing information for an event submission.
+Contains information about a submission for an event, jam or not.
 
 ```js
 {
   "id":"author-title in camelcase-date",//deathvenom-jumpForJoy-11/1/2021
   "title":"Title of the submission",
   "desc":"description of submission",
-  "author":"author",
-  "authorDiscord":"author's discord usertag",
+  "image":"url to thumbnail image." //https://img.itch.zone/aW1nLzM4NzYzNzIucG5n/315x250%23c/fiFiEa.png
+  "author": {
+    "name": "author",
+    "email": "author@author.com", // optional
+    "discord":"author's discord usertag" // optional
+  },
   "event":"id for the event",
+  "link": {
+    "submission": "link to the submission",
+    "rating": "link to the rating of the submissions" // optional
+  },
   "win":["","",""] //Array of categories in which the submission won. Empty array if none.
 }
 ```
