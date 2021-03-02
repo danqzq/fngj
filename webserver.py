@@ -8,7 +8,7 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "Don't even try to hack our bot you scumbag"
+    return ":)"
 
 def run():
     app.run(host='0.0.0.0', port=8080)
