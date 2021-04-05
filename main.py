@@ -164,19 +164,13 @@ async def leaderboard(context):
             continue
         usersLevels.append(db[member])
         users.append(int(member))
-    checked = False
-    while checked == False:
-        for counter in range(0, len(usersLevels) - 1):
-            if usersLevels[counter] < usersLevels[counter + 1]:
-                usersLevels[counter], usersLevels[counter + 1] = usersLevels[counter + 1], usersLevels[counter]
-                users[counter], users[counter + 1] = users[counter + 1], users[counter]
-        if usersLevels[0] >= usersLevels[1] and usersLevels[1] >= usersLevels[2] and usersLevels[2] >= usersLevels[3] and usersLevels[3] >= usersLevels[4] and usersLevels[4] >= usersLevels[5] and usersLevels[5] >= usersLevels[6] and usersLevels[6] >= usersLevels[7] and usersLevels[7] >= usersLevels[8] and usersLevels[8] >= usersLevels[9] and usersLevels[9] >= usersLevels[10] and usersLevels[10] >= usersLevels[11] and usersLevels[11] >= usersLevels[12] and usersLevels[12] >= usersLevels[13] and usersLevels[13] >= usersLevels[14] and usersLevels[14] >= usersLevels[15]:
-            checked = True
+    usersDict = dict(zip(usersLevels, users))
+    usersLevels.sort(reverse=True)
     desc = ""
     for level in usersLevels:
-        if i == 11:
+        if i > 10:
             break
-        desc += str(i) + f". {await client.fetch_user(users[i - 1])}" + f" - Level {str(int(usersLevels[i - 1] / 25) + 1)}" + "\n"
+        desc += str(i) + f". {await client.fetch_user(usersDict[usersLevels[i - 1]])}" + f" - Level {str(int(usersLevels[i - 1] / 25) + 1)}" + "\n"
         i += 1
     embed = discord.Embed(
         title="Leaderboard",
@@ -271,7 +265,7 @@ async def on_message(message):
         if "suck" not in message.content.lower():
             await message.channel.send("Indeed!")
 
-    if client.user.mentioned_in(message) and not message.author.name.startswith("Code"):
+    if client.user.mentioned_in(message):
         await message.channel.send("Ay! Don't ping me, I'm watching **you**!")
         await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=message.author.name))
 
